@@ -2,7 +2,8 @@
   "targets": [
     {
       "target_name": "cityhash",
-      "sources": [ "./src/common.cc" ]
+      "include_dirs": ["./src/cityhash/"],
+      "sources": [ "./src/binding.cc", "./src/cityhash/city.cc" ]
     }
   ]
 }

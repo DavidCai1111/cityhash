@@ -1,5 +1,9 @@
 #include <node_api.h>
 #include <assert.h>
+#include "cityhash/city.h"
+#ifdef __SSE4_2__
+#include "cityhash/citycrc.h"
+#endif
 
 #define DECLARE_NAPI_METHOD(name, func)                          \
   { name, 0, func, 0, 0, 0, napi_default, 0 }
