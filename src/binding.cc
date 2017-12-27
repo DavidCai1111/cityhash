@@ -21,14 +21,6 @@
     return nullptr;                                                           \
   }
 
-napi_value SayHello(napi_env env, napi_callback_info info) {
-  napi_value world;
-  napi_status status = napi_create_string_utf8(env, "world", 5, &world);
-  assert(status == napi_ok);
-
-  return world;
-}
-
 napi_value Hash32(napi_env env, napi_callback_info info) {
   ASSERT_ARGS_LEN(1);
 
