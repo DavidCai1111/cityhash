@@ -1,0 +1,3 @@
+[submodule "src/cityhash"]
+	path = src/cityhash
+	url = https://github.com/google/cityhash.git
