@@ -1,12 +1,25 @@
 #include <node_api.h>
 #include <assert.h>
-#include "cityhash/city.h"
+#include <string.h>
+#include "cityhash/src/city.h"
 #ifdef __SSE4_2__
-#include "cityhash/citycrc.h"
+#include "cityhash/src/citycrc.h"
 #endif
 
 #define DECLARE_NAPI_METHOD(name, func)                          \
   { name, 0, func, 0, 0, 0, napi_default, 0 }
+
+#define ASSERT_NAPI_OK(get_code_func)                            \
+  assert(get_code_func == napi_ok)
+
+#define ASSERT_ARGS_LEN(n)                                                    \
+  size_t argc = n;                                                            \
+  napi_value args[n];                                                         \
+  ASSERT_NAPI_OK(napi_get_cb_info(env, info, &argc, args, nullptr, nullptr)); \
+  if (argc != n) {                                                            \
+    napi_throw_type_error(env, nullptr, "Wrong number of arguments");         \
+    return nullptr;                                                           \
+  }
 
 napi_value SayHello(napi_env env, napi_callback_info info) {
   napi_value world;
@@ -16,11 +29,26 @@ napi_value SayHello(napi_env env, napi_callback_info info) {
   return world;
 }
 
-napi_value Init(napi_env env, napi_value exports) {
-  napi_property_descriptor descriptor = DECLARE_NAPI_METHOD("hello", SayHello);
-  napi_status status = napi_define_properties(env, exports, 1, &descriptor);
-  assert(status == napi_ok);
+napi_value Hash32(napi_env env, napi_callback_info info) {
+  ASSERT_ARGS_LEN(1);
 
+  size_t size = sizeof(args[0]) / 2;
+  char str[size];
+  ASSERT_NAPI_OK(napi_get_value_string_utf8(env, args[0], str, size, nullptr));
+
+  uint32 hash = CityHash32(str, strlen(str));
+  napi_value return_result;
+
+  ASSERT_NAPI_OK(napi_create_uint32(env, hash, &return_result));
+
+  return return_result;
+}
+
+napi_value Init(napi_env env, napi_value exports) {
+  napi_status status;
+  napi_property_descriptor addDescriptor = DECLARE_NAPI_METHOD("hash32", Hash32);
+  status = napi_define_properties(env, exports, 1, &addDescriptor);
+  assert(status == napi_ok);
   return exports;
 }
 

@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "preinstall": "cd ./src/cityhash && ./configure && make install",
     "test": "node-gyp rebuild && node index.js"
   },
   "repository": {
@@ -19,5 +20,9 @@
   "homepage": "https://github.com/DavidCai1993/cityhash#readme",
   "dependencies": {
     "bindings": "^1.3.0"
+  },
+  "devDependencies": {
+    "mocha": "^4.0.1",
+    "power-assert": "^1.4.4"
   }
 }
