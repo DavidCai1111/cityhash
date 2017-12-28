@@ -1,0 +1,16 @@
+sudo: required
+
+language: node_js
+
+node_js:
+  - '8'
+
+before_install:
+  - cd ./src
+  - git clone https://github.com/google/cityhash.git
+  - cd ./cityhash
+  - ./configure
+  - make install
+
+script: npm test
+after_script: "npm install coveralls@2 && cat ./coverage/lcov.info | coveralls"
