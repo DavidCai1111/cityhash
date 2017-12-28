@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "preinstall": "cd ./src/cityhash && ./configure && make install",
     "test": "./node_modules/.bin/standard && node-gyp rebuild && ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha"
   },
   "repository": {
