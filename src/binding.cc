@@ -6,10 +6,10 @@
 #include "cityhash/src/citycrc.h"
 #endif
 
-#define DECLARE_NAPI_METHOD(name, func)                          \
+#define DECLARE_NAPI_METHOD(name, func)                                       \
   { name, 0, func, 0, 0, 0, napi_default, 0 }
 
-#define ASSERT_NAPI_OK(get_code_func)                            \
+#define ASSERT_NAPI_OK(get_code_func)                                         \
   assert(get_code_func == napi_ok)
 
 #define ASSERT_ARGS_LEN(n)                                                    \
@@ -20,6 +20,12 @@
     napi_throw_type_error(env, nullptr, "Wrong number of arguments");         \
     return nullptr;                                                           \
   }
+
+#define ADD_METHOD(name, func)                                                \
+  do {                                                                        \
+    napi_property_descriptor desc = DECLARE_NAPI_METHOD(name, func);          \
+    assert(napi_define_properties(env, exports, 1, &desc) == napi_ok);        \
+  } while (0)
 
 napi_value Hash32(napi_env env, napi_callback_info info) {
   ASSERT_ARGS_LEN(1);
@@ -36,11 +42,25 @@ napi_value Hash32(napi_env env, napi_callback_info info) {
   return return_result;
 }
 
+napi_value Hash64(napi_env env, napi_callback_info info) {
+  ASSERT_ARGS_LEN(1);
+
+  size_t size = sizeof(args[0]) / 2;
+  char str[size];
+  ASSERT_NAPI_OK(napi_get_value_string_utf8(env, args[0], str, size, nullptr));
+
+  uint64 hash = CityHash64(str, strlen(str));
+  napi_value return_result;
+
+  ASSERT_NAPI_OK(napi_create_uint32(env, hash, &return_result));
+
+  return return_result;
+}
+
 napi_value Init(napi_env env, napi_value exports) {
-  napi_status status;
-  napi_property_descriptor addDescriptor = DECLARE_NAPI_METHOD("hash32", Hash32);
-  status = napi_define_properties(env, exports, 1, &addDescriptor);
-  assert(status == napi_ok);
+  ADD_METHOD("hash32", Hash32);
+  ADD_METHOD("hash64", Hash64);
+
   return exports;
 }
 

@@ -4,11 +4,10 @@ language: node_js
 
 node_js:
   - '8'
+  - '9'
 
 before_install:
-  - cd ./src
-  - git clone https://github.com/google/cityhash.git
-  - cd ./cityhash
+  - cd ./src/cityhash
   - ./configure
   - make install
 
