@@ -27,23 +27,26 @@
     assert(napi_define_properties(env, exports, 1, &desc) == napi_ok);        \
   } while (0)
 
-char* get_arg_string (napi_env env, napi_value arg) {
+size_t get_arg_string_len (napi_env env, napi_value arg) {
   size_t size;
   ASSERT_NAPI_OK(napi_get_value_string_utf8(env, arg, NULL, 0, &size));
 
-  char str[size];
+  return size;
+}
 
+void get_arg_string (napi_env env, napi_value arg, char* str, size_t size) {
   ASSERT_NAPI_OK(napi_get_value_string_utf8(env, arg, str, size + 1, nullptr));
 
   assert(size == strlen(str));
-
-  return str;
 }
 
 napi_value Hash32(napi_env env, napi_callback_info info) {
   ASSERT_ARGS_LEN(1);
 
-  char* str = get_arg_string(env, args[0]);
+  size_t size = get_arg_string_len(env, args[0]);
+  char str[size];
+
+  get_arg_string(env, args[0], str, size);
 
   uint32 hash = CityHash32(str, strlen(str));
   napi_value return_result;
@@ -56,7 +59,10 @@ napi_value Hash32(napi_env env, napi_callback_info info) {
 napi_value Hash64(napi_env env, napi_callback_info info) {
   ASSERT_ARGS_LEN(1);
 
-  char* str = get_arg_string(env, args[0]);
+  size_t size = get_arg_string_len(env, args[0]);
+  char str[size];
+
+  get_arg_string(env, args[0], str, size);
 
   uint64 hash = CityHash64(str, strlen(str));
   napi_value return_result;
