@@ -2,11 +2,11 @@
 const cityhash = require('bindings')('cityhash')
 
 function hash32 (data) {
-  return cityhash.hash32(stringifyObject(data))
+  return cityhash.hash32(stringifyObject(data)).toString(16)
 }
 
 function hash64 (data) {
-  return cityhash.hash64(stringifyObject(data))
+  return cityhash.hash64(stringifyObject(data)).toString(16)
 }
 
 function stringifyObject (obj) {

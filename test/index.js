@@ -5,10 +5,10 @@ const assert = require('power-assert')
 
 describe('cityhash', function () {
   it('hash32', function () {
-    assert(typeof cityhash.hash32('test32') === 'number')
+    assert(cityhash.hash32('test32') === '69a1e563')
   })
 
   it('hash64', function () {
-    assert(typeof cityhash.hash64('test64') === 'number')
+    assert(cityhash.hash64('test64') === 'f86e14ad')
   })
 })
