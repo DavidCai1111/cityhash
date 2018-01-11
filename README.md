@@ -3,3 +3,13 @@
 [![Coverage Status](https://coveralls.io/repos/github/DavidCai1993/cityhash/badge.svg?branch=master)](https://coveralls.io/github/DavidCai1993/cityhash?branch=master)
 
 Cityhash for Node.js.
+
+## Installation
+
+```
+npm install node-cityhash
+```
+
+## TODO:
+
+- `Hash128`

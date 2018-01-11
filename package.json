@@ -1,5 +1,5 @@
 {
-  "name": "cityhash",
+  "name": "node-cityhash",
   "version": "0.0.1",
   "description": "Cityhash for Node.js",
   "main": "index.js",
