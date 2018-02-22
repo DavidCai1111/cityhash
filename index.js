@@ -9,6 +9,10 @@ function hash64 (data) {
   return cityhash.hash64(stringifyObject(data)).toString(16)
 }
 
+function hash128 (data) {
+  return cityhash.hash128(stringifyObject(data)).toString(16)
+}
+
 function stringifyObject (obj) {
   if (typeof obj === 'string') return obj
   if (Buffer.isBuffer(obj)) return obj.toString()
@@ -32,4 +36,4 @@ function sortObject (obj) {
   return values
 }
 
-module.exports = { hash32, hash64 }
+module.exports = { hash32, hash64, hash128 }

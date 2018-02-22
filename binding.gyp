@@ -13,7 +13,7 @@
           "action": [
             "bash",
             "-c",
-            "cd ./src/cityhash && ./configure && make install"
+            "cd ./src/cityhash && ./configure && make clean"
           ]
         }
       ],
