@@ -45,7 +45,7 @@ napi_value Hash32(napi_env env, napi_callback_info info) {
   ASSERT_ARGS_LEN(1);
 
   size_t size = get_arg_string_len(env, args[0]);
-  char str[size];
+  char str[size+1];
 
   get_arg_string(env, args[0], str, size);
 
@@ -61,7 +61,7 @@ napi_value Hash64(napi_env env, napi_callback_info info) {
   ASSERT_ARGS_LEN(1);
 
   size_t size = get_arg_string_len(env, args[0]);
-  char str[size];
+  char str[size+1];
 
   get_arg_string(env, args[0], str, size);
 
@@ -77,7 +77,7 @@ napi_value Hash128(napi_env env, napi_callback_info info) {
   ASSERT_ARGS_LEN(1);
 
   size_t size = get_arg_string_len(env, args[0]);
-  char str[size];
+  char str[size+1];
 
   get_arg_string(env, args[0], str, size);
 
@@ -95,19 +95,19 @@ napi_value Hash128(napi_env env, napi_callback_info info) {
   ASSERT_NAPI_OK(napi_coerce_to_string(env, return_1, &str_return_1));
   ASSERT_NAPI_OK(napi_coerce_to_string(env, return_2, &str_return_2));
 
-  char store_1;
-  size_t result_1;
+  char result_1;
+  size_t size_result_1;
 
-  ASSERT_NAPI_OK(napi_get_value_string_utf8(env, str_return_1, &store_1, 16, &result_1));
+  ASSERT_NAPI_OK(napi_get_value_string_utf8(env, str_return_1, &result_1, 16, &size_result_1));
 
-  char store_2;
-  size_t result_2;
+  char result_2;
+  size_t size_result_2;
 
-  ASSERT_NAPI_OK(napi_get_value_string_utf8(env, str_return_2, &store_2, 16, &result_2));
+  ASSERT_NAPI_OK(napi_get_value_string_utf8(env, str_return_2, &result_2, 16, &size_result_2));
 
-  char* merged = new char[32];
-  strcpy(merged, &store_1);
-  strcat(merged, &store_2);
+  char* merged = new char[size_result_1+size_result_2];
+  strcpy(merged, &result_1);
+  strcat(merged, &result_2);
 
   napi_value result;
 
