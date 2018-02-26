@@ -1,27 +1,19 @@
-const cityhash = require('bindings')('cityhash');
-const { stringifyObject } = require('./helpers.js');
+var stringifyObject = require('./helpers.js').stringifyObject;
+var hasher = require('./hasher.js');
 
 function hash32(data) {
   if (!data) {
     throw new Error();
   }
-  return cityhash.hash32(stringifyObject(data)).toString(16);
-}
-
-function hash64(data) {
-  if (!data) {
-    throw new Error();
-  }
-  return cityhash.hash64(stringifyObject(data)).toString(16);
+  return hasher.murmurhash3_32_gc(data, 0).toString();
 }
 
 function hash128(data) {
   if (!data) {
     throw new Error();
   }
-  let result = cityhash.hash128(stringifyObject(data)).toString(16);
-  result = result.substring(0, result.length - 1);
-  return result;
+  var hash = hasher.murmurhash3_128_raw_gc(data, 0);
+  return hash.reduce((a, b)=> String(a)+String(b));
 }
 
-module.exports = { hash32, hash64, hash128 };
+module.exports = { hash32, hash128 };
