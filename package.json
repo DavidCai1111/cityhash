@@ -17,8 +17,7 @@
     "url": "https://github.com/dark0dave/cityhash/issues"
   },
   "homepage": "https://github.com/dark0dave/cityhash#readme",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "eslint": "^4.18.1",
     "eslint-config-airbnb-base": "^12.1.0",
