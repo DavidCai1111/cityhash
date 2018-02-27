@@ -1,4 +1,4 @@
-const { stringifyObject } = require('../helpers.js');
+const { stringifyObject } = require('../src/helpers.js');
 
 describe('helpers', () => {
   describe('stringifyObject', () => {
